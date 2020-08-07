@@ -1,0 +1,474 @@
+##################################
+### Begin of global settings
+# font for title and bar
+font pango:Terminus 10
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+focus_follows_mouse no
+default_border pixel 5
+hide_edge_borders vertical
+## Window properties ##
+workspace_auto_back_and_forth yes
+#show_marks yes
+# disable changing focus at the edge
+focus_wrapping no
+# /         \ #
+#( Variables )#
+# \         / #
+# use win as modifier
+set $mod Mod4
+#control primary monitor's brightness
+set $interval 0.05
+set $interval_h 0.025
+# Define names for default workspaces for which we configure key bindings later on.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+# /     \ #
+#( Class )#
+# \     / #
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [class="libreoffice"] focus child, layout tabbed, focus
+for_window [class="copyq"] floating enable
+# /          \ #
+#( Auto start )#
+# \          / #
+exec --no-startup-id xmodmap ~/.config/.Xmodmap
+exec --no-startup-id "xrandr --output eDP-1 --off; xrandr --output DP-2 --primary --mode 2560x1440 --rate 144 --brightness 0.4; pkill keynav; keynav"
+exec --no-startup-id fcitx
+exec --no-startup-id goldendict
+#exec --no-startup-id xcalib -co 40 -d :0 ~/.config/i3/B156HAN04.3.icm
+exec --no-startup-id picom -bf
+exec --no-startup-id blueman-applet
+exec --no-startup-id nm-applet
+exec --no-startup-id pa-applet 
+exec --no-startup-id jupyter-lab --no-browser
+exec --no-startup-id copyq
+# disable touch pad when typing
+exec --no-startup-id syndaemon -i 1 -t -K -R
+# set wallpaper
+#exec --no-startup-id feh --no-fehbg --bg-scale '/home/zungaen/.config/i3/black_background.png'
+exec --no-startup-id hsetroot -solid '#000000'
+exec --no-startup-id synclient TapButton1=0
+exec --no-startup-id "xkbset m; xkbset exp =m"
+### End of global settings
+##################################
+
+##################################
+### Begin of keymap
+# / \ #
+#( A )#
+# \ / #
+bindsym $mod+a mode "$pointer"
+# / \ #
+#( B )#
+# \ / #
+# toggle i3 bar
+bindsym $mod+b bar mode toggle
+# / \ #
+#( C )#
+# \ / #
+# focus the children container
+bindsym $mod+c focus child
+# focus the parent container
+bindsym $mod+Shift+c focus parent
+# CLI music player
+bindsym $mod+Ctrl+c exec --no-startup-id pulseeffects; exec --no-startup-id "! pgrep -x cmus && terminator -e cmus || cmus-remote -u"; layout tabbed
+# reload the configuration file
+bindsym $mod+Shift+Ctrl+c reload
+# / \ #
+#( D )#
+# \ / #
+# change container layout to split
+bindsym $mod+d exec --no-startup-id goldendict
+# / \ #
+#( E )#
+# \ / #
+bindsym $mod+e layout toggle split
+# kill window by pointer
+# / \ #
+#( F )#
+# \ / #
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+# browser
+bindsym $mod+Ctrl+f exec firefox
+# / \ #
+#( G )#
+# \ / #
+bindsym $mod+g mode "$pointer"
+# / \ #
+#( H )#
+# \ / #
+# change focus left
+bindsym $mod+h focus left
+bindsym $mod+Ctrl+h focus left; split horizontal; focus right; move left
+# move focused window to left
+bindsym $mod+Shift+h move left 200
+# / \ #
+#( I )#
+# \ / #
+# invert color
+bindsym $mod+Ctrl+i exec --no-startup-id xcalib -i -a
+bindsym $mod+i mode "$input"
+# / \ #
+#( J )#
+# \ / #
+# change focus to down
+bindsym $mod+j focus down
+bindsym $mod+Ctrl+j focus down; split vertical; focus up; move down
+# move focused window to down
+bindsym $mod+Shift+j move down 200
+# / \ #
+#( K )#
+# \ / #
+# change focus to up
+bindsym $mod+k focus up
+bindsym $mod+Ctrl+k focus up; split vertical; focus down; move up
+# move focused window to up
+bindsym $mod+Shift+k move up 200
+# / \ #
+#( L )#
+# \ / #
+# change focus to right
+bindsym $mod+l focus right
+bindsym $mod+Ctrl+l focus right; split horizontal; focus left; move right
+# move focused window to right
+bindsym $mod+Shift+l move right 200
+# / \ #
+#( M )#
+# \ / #
+# toggle mute
+bindsym $mod+Ctrl+m exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+# start dmenu (a program launcher)
+bindsym $mod+m exec --no-startup-id i3-dmenu-desktop
+# start dmenu with CLI
+bindsym $mod+Shift+m exec dmenu_run
+# / \ #
+#( O )#
+# \ / #
+bindsym $mod+o mode "$output"
+# / \ #
+#( P )#
+# \ / #
+# volume control
+bindsym $mod+p focus parent
+bindsym $mod+Ctrl+p exec pavucontrol
+# / \ #
+#( Q )#
+# \ / #
+# toggle clippad
+bindsym $mod+q exec copyq toggle
+bindsym $mod+Shift+q kill
+bindsym $mod+Ctrl+Shift+q exec --no-startup-id xkill
+# / \ #
+#( R )#
+# \ / #
+# Ranger file manager
+bindsym $mod+Ctrl+r exec --no-startup-id terminator -e ranger
+# resize window
+bindsym $mod+r mode "resize"
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+Ctrl+r restart
+# / \ #
+#( s )#
+# \ / #
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+# / \ #
+#( T )#
+# \ / #
+# window tabbed
+bindsym $mod+t layout tabbed
+bindsym $mod+Ctrl+t border normal 5
+bindsym --release $mod+Ctrl+t border pixel 5
+# / \ #
+#( U )#
+# \ / #
+bindsym $mod+Ctrl+u  exec --no-startup-id jupyter lab
+# / \ #
+#( V )#
+# \ / #
+# split window
+bindsym $mod+v split vertical
+bindsym $mod+Ctrl+v layout splitv
+# / \ #
+#( W )#
+# \ / #
+# to focused window
+bindsym $mod+w exec --no-startup-id wmfocus
+# / \ #
+#( Y )#
+# \ / #
+# open music and lyrics
+bindsym $mod+y mode "$music_menu"
+# / \ #
+#( Z )#
+# \ / #
+# toggle horizontal window
+bindsym $mod+z split horizontal 
+bindsym $mod+Ctrl+z layout splith
+# /         \ #
+#( Notations )#
+# \         / #
+# brightness control
+bindsym $mod+period exec --no-startup-id xrandr --verbose | grep -A 5 'primary' | awk 'NR == 1 {print $1} NR == 6 {print $2 - $interval * ($2 > $interval)}' | parallel -N 2 xrandr --output {1} --brightness {2}
+bindsym $mod+Shift+period exec --no-startup-id xrandr --verbose | grep -A 5 'primary' | awk 'NR == 1 {print $1} NR == 6 {print $2 - $interval_h * ($2 > $interval_h)}' | parallel -N 2 xrandr --output {1} --brightness {2}
+bindsym $mod+slash exec --no-startup-id xrandr --verbose | grep -A 5 'primary' | awk 'NR == 1 {print $1} NR == 6 {print $2 + $interval * ($2 < 1)}' | parallel -N 2 xrandr --output {1} --brightness {2}
+bindsym $mod+Shift+slash exec --no-startup-id xrandr --verbose | grep -A 5 'primary' | awk 'NR == 1 {print $1} NR == 6 {print $2 + $interval_h * ($2 < 1)}' | parallel -N 2 xrandr --output {1} --brightness {2}
+# volume control
+bindsym $mod+Ctrl+period exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+Ctrl+slash exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+# scratchpad (hidden area)
+bindsym $mod+grave scratchpad show
+bindsym $mod+Shift+grave move scratchpad
+# toggle latest workspace
+bindsym $mod+Tab workspace next
+# move latest workspace
+bindsym $mod+Ctrl+Tab move container to workspace back_and_forth workspace back_and_forth
+# send latest workspace
+bindsym $mod+Shift+Tab workspace prev
+# start terminator(terminal)
+bindsym $mod+Return exec terminator
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+# screenshot
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
+# screenshot with selection
+bindsym Shift+Print --release exec --no-startup-id i3-scrot -s
+# shrink window
+bindsym $mod+bracketleft resize shrink width 10 px or 10 ppt
+bindsym $mod+bracketright resize grow width 10 px or 10 ppt
+bindsym $mod+Shift+bracketleft resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+bracketright resize grow height 10 px or 10 ppt
+# move pointer
+bindsym $mod+semicolon mode "$pointer"
+# /      \ #
+#( Arrows )#
+# \      / #
+# change focus left
+bindsym $mod+Left focus left
+bindsym $mod+Ctrl+Left focus left; split horizontal; focus right; move left
+# move focused window to left
+bindsym $mod+Shift+Left move left 200
+# change focus to down
+bindsym $mod+Down focus down
+bindsym $mod+Ctrl+Down focus down; split vertical; focus up; move down
+# move focused window to down
+bindsym $mod+Shift+Down move down 200
+# change focus to up
+bindsym $mod+Up focus up
+bindsym $mod+Ctrl+Up focus up; split vertical; focus down; move up
+# move focused window to up
+bindsym $mod+Shift+Up move up 200
+# change focus to right
+bindsym $mod+Right focus right
+bindsym $mod+Ctrl+Right focus right; split horizontal; focus left; move right
+# move focused window to right
+bindsym $mod+Shift+Right move right 200
+# /       \ #
+#( Numbers )#
+# \       / #
+# control system
+bindsym $mod+0 mode "$mode_system"
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+# switch focused container to workspace
+bindsym $mod+Ctrl+1 move container to workspace $ws1 workspace $ws1
+bindsym $mod+Ctrl+2 move container to workspace $ws2 workspace $ws2
+bindsym $mod+Ctrl+3 move container to workspace $ws3 workspace $ws3
+bindsym $mod+Ctrl+4 move container to workspace $ws4 workspace $ws4
+bindsym $mod+Ctrl+5 move container to workspace $ws5 workspace $ws5
+bindsym $mod+Ctrl+6 move container to workspace $ws6 workspace $ws6
+bindsym $mod+Ctrl+7 move container to workspace $ws7 workspace $ws7
+bindsym $mod+Ctrl+8 move container to workspace $ws8 workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9 workspace $ws9
+### End of keymap
+##################################
+
+##################################
+### Begin of mode
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym h resize shrink width 200 px or 200 ppt
+        bindsym j resize grow height 200 px or 200 ppt
+        bindsym k resize shrink height 200 px or 200 ppt
+        bindsym l resize grow width 200 px or 200 ppt
+        bindsym u resize shrink width 200 px or 200 ppt; resize shrink height 200 px or 200 ppt
+        bindsym i resize grow width 200 px or 200 ppt; resize shrink height 200 px or 200 ppt
+        bindsym m resize shrink width 200 px or 200 ppt; resize grow height 200 px or 200 ppt
+        bindsym comma resize grow width 200 px or 200 ppt; resize grow height 200 px or 200 ppt
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+# Start i3bar to display a workspace bar (plus the system information i3status
+bar {
+    status_command    py3status -c ~/.config/i3status/config
+    mode              hide
+    hidden_state      hide
+    workspace_buttons yes
+    font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+    colors {
+        background #000000
+        statusline #ffffff
+        focused_workspace  #ffffff #285577
+        active_workspace   #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
+}
+# i3 exit
+#set $Locker workspace Computer locked; exec --no-startup-id terminator -b --geometry=2560x1440 -e "cmatrix -r"; exec --no-startup-id sleep 1 && i3lock && sleep 1
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+#    bindsym l $Locker, mode "default"
+    bindsym n exec --no-startup-id i3lock -n && sleep 1, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    #bindsym s $Locker && systemctl suspend, mode "default"
+    #bindsym h $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+#Set monitor output
+set $output Output:   (n)ormal   (i)inverted   (l)eft   (r)ight   (D)P-2   (Shift+D)P-2-aside   (e)DP-1   (Shift+e)DP-1-aside   (H)DMI-2   (Shift+H)DMI-2-aside   (6)0 second display   (S-6)00 second display
+mode "$output" {
+	# set time to turn off display
+	bindsym 6 exec xset dpms 60, mode "default"
+	bindsym Shift+6 exec xset dpms 600, mode "default"
+    # orientation
+    bindsym n exec --no-startup-id "xrandr -o 0; pkill keynav; keynav", mode "default"
+    bindsym i exec --no-startup-id "xrandr -o 2; pkill keynav; keynav", mode "default"
+    bindsym l exec --no-startup-id "xrandr -o 1; pkill keynav; keynav", mode "default"
+    bindsym r exec --no-startup-id "xrandr -o 3; pkill keynav; keynav", mode "default"
+    # monitor
+    bindsym e exec --no-startup-id "xrandr --output DP-2 --off; xrandr --output eDP-1 --primary --mode 1920x1080 --rate 120 --brightness 0.4; pkill keynav; keynav", mode "default"
+    bindsym d exec --no-startup-id "xrandr --output eDP-1 --off; xrandr --output DP-2 --primary --mode 2560x1440 --rate 144 --brightness 0.4; pkill keynav; keynav", mode "default"
+    bindsym Shift+d exec --no-startup-id "xrandr --output DP-2 --primary --mode 2560x1440 --rate 144 --brightness 0.4; pkill keynav; keynav", mode "default"
+    bindsym Shift+e exec --no-startup-id "xrandr --output eDP-1 --primary --mode 1920x1080 --rate 120 --brightness 0.4; pkill keynav; keynav", mode "default"
+    bindsym h exec --no-startup-id "xrandr --output eDP-1 --off; xrandr --output HDMI-2 --primary --auto --brightness 0.4; pkill keynav; keynav", mode "default"
+    bindsym Ctrl+h exec --no-startup-id xrandr --output HDMI-2 --auto --off, mode "default"
+    bindsym Shift+h exec --no-startup-id "xrandr --output HDMI-2 --primary --auto --brightness 0.4; pkill keynav; keynav", mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+#move pointer
+set $pointer Point to
+mode "$pointer" {
+    bindsym q exec --no-startup-id xte 'mousemove 128 240', mode "default"
+    bindsym w exec --no-startup-id xte 'mousemove 384 240', mode "default"
+    bindsym e exec --no-startup-id xte 'mousemove 640 240', mode "default"
+    bindsym r exec --no-startup-id xte 'mousemove 896 240', mode "default"
+    bindsym t exec --no-startup-id xte 'mousemove 1152 240', mode "default"
+    bindsym y exec --no-startup-id xte 'mousemove 1408 240', mode "default"
+    bindsym u exec --no-startup-id xte 'mousemove 1664 240', mode "default"
+    bindsym i exec --no-startup-id xte 'mousemove 1920 240', mode "default"
+    bindsym o exec --no-startup-id xte 'mousemove 2176 240', mode "default"
+    bindsym p exec --no-startup-id xte 'mousemove 2432 240', mode "default"
+    bindsym a exec --no-startup-id xte 'mousemove 128 720', mode "default"
+    bindsym s exec --no-startup-id xte 'mousemove 384 720', mode "default"
+    bindsym d exec --no-startup-id xte 'mousemove 640 720', mode "default"
+    bindsym f exec --no-startup-id xte 'mousemove 896 720', mode "default"
+    bindsym g exec --no-startup-id xte 'mousemove 1152 720', mode "default"
+    bindsym h exec --no-startup-id xte 'mousemove 1408 720', mode "default"
+    bindsym j exec --no-startup-id xte 'mousemove 1664 720', mode "default"
+    bindsym k exec --no-startup-id xte 'mousemove 1920 720', mode "default"
+    bindsym l exec --no-startup-id xte 'mousemove 2176 720', mode "default"
+    bindsym semicolon exec --no-startup-id xte 'mousemove 2432 720', mode "default"
+    bindsym z exec --no-startup-id xte 'mousemove 128 1200', mode "default"
+    bindsym x exec --no-startup-id xte 'mousemove 384 1200',, mode "default"
+    bindsym c exec --no-startup-id xte 'mousemove 640 1200', mode "default"
+    bindsym v exec --no-startup-id xte 'mousemove 896 1200', mode "default"
+    bindsym b exec --no-startup-id xte 'mousemove 1152 1200', mode "default"
+    bindsym n exec --no-startup-id xte 'mousemove 1408 1200', mode "default"
+    bindsym m exec --no-startup-id xte 'mousemove 1664 1200', mode "default"
+    bindsym comma exec --no-startup-id xte 'mousemove 1920 1200', mode "default"
+    bindsym period exec --no-startup-id xte 'mousemove 2176 1200', mode "default"
+    bindsym slash exec --no-startup-id xte 'mousemove 2432 1200', mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+#change input method
+set $input Change input:  (u)us-layout   (x)xmodmap-layout   (t)touchpad-enabled   (S-t)disable-touchboard   (l)leveno-touchpad-setting (m)mousekeys  (b)build-in-keyboard   (S-b)disable-build-in-keyboard   (p)plum66-xmodmap
+mode "$input" {
+    bindsym u exec --no-startup-id "setxkbmap -layout us", mode "default"
+	bindsym l exec --no-startup-id "xinput set-prop 'pointer:Chicony Lenovo Wireless Touchpad K5923' 310 1; xinput set-prop 'pointer:Chicony Lenovo Wireless Touchpad K5923' 323 1", mode "default"
+	bindsym x exec --no-startup-id "xmodmap .config/.Xmodmap; xkbset m; xkbset exp =m", mode "default"
+	bindsym p exec --no-startup-id "xmodmap .config/.Xmodmap-plum66; xkbset m; xkbset exp =m", mode "default"
+	bindsym c exec --no-startup-id "synclient TapButton1=1", mode "default"
+	bindsym Shift+c exec --no-startup-id "synclient TapButton1=0", mode "default"
+	bindsym t exec --no-startup-id xinput reattach "ETPS/2 Elantech Touchpad" 2, mode "default"
+	bindsym Shift+t exec --no-startup-id xinput float "ETPS/2 Elantech Touchpad", mode "default"
+    bindsym m exec --no-startup-id "xkbset m; xkbset exp =m", mode "default"
+	bindsym b exec --no-startup-id xinput reattach "AT Translated Set 2 keyboard" 3, mode "default"
+	bindsym Shift+b exec --no-startup-id xinput float "AT Translated Set 2 keyboard", mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+# music menu
+set $music_menu Music menu:   (s)spotify   (m)musixmatch   (d)ark lyrics   (t)atist   (b)album   (f)full-volume   (space)play-pause   (e)sersearch
+mode "$music_menu" {
+	bindsym m exec --no-startup-id "musixmatch -h", mode "default"
+	bindsym s exec --no-startup-id "spotify", mode "default"
+	bindsym d exec --no-startup-id "xte 'mousemove 1140 1390'; xte 'mouseclick 1'", mode "default"
+	bindsym b exec --no-startup-id "xte 'mousemove 1350 1380'; xte 'mouseclick 1'", mode "default"
+	bindsym t exec --no-startup-id "xte 'mousemove 1350 1400'; xte 'mouseclick 1'", mode "default"
+	bindsym e exec --no-startup-id "xte 'mousemove 1750 25'; xte 'mouseclick 1'", mode "default"
+    bindsym f exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ 100%, mode "default"
+	bindsym space exec --no-startup-id "playerctl play-pause", mode "default"
+	bindsym p exec --no-startup-id "playerctl previous", mode "default"
+	bindsym n exec --no-startup-id "playerctl next", mode "default"
+	bindsym r exec --no-startup-id "bluetoothctl connect 00:02:5b:00:ff:01", mode "default"
+	bindsym Shift+r exec --no-startup-id "bluetoothctl disconnect 00:02:5b:00:ff:01", mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+### End of mode
+##################################
+
+##################################
+### Start of Testing
+#bindsym $mod+F1 move absolute position center
+#bindsym $mod+F2 move position mouse
+# F mouse
+bindsym $mod+F1 exec --no-startup-id xte 'mousermove -20 0'
+bindsym $mod+F2 exec --no-startup-id xte 'mousermove 0 20'
+bindsym $mod+F3 exec --no-startup-id xte 'mousermove 0 -20'
+bindsym $mod+F4 exec --no-startup-id xte 'mousermove 20 0'
+### End of Testing
+##################################
